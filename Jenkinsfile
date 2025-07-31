@@ -1,17 +1,19 @@
 pipeline {
-  agent any
+    agent any
 
-stages {
-  stage ('checkout') {
-    steps{
-      checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/nallapatikrishna1/simple-java-maven-app.git']])
-    }
-  stage ('Build') {
+    stages {
+        stage('Checkout') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                  checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/nallapatikrishna1/simple-java-maven-app.git']])
+
             }
         }
-	}
-	}
-		
+
+        stage('Build') {
+            steps {
+                echo 'Building the application...'
+                sh 'mvn clean install'
+            }
+        }
+    }
 }
